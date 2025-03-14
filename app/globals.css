@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "VT323";
+  src: url("/fonts/VT323-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --primary: 0, 100, 0; /* Green */
+  --primary-foreground: 255, 255, 255;
+}
+
+.dark {
+  --primary: 0, 255, 0; /* Bright Green */
+  --primary-foreground: 0, 0, 0;
+}
+
+html {
+  cursor: url("/cursor.png"), auto;
+}
+
+body {
+  font-family: "VT323", monospace;
+  background-color: #000;
+  color: #fff;
+  image-rendering: pixelated;
+}
+
+.font-pixel {
+  font-family: "VT323", monospace;
+}
+
+.font-pixel-bold {
+  font-family: "Press Start 2P", cursive;
+}
+
+/* CRT scan lines effect */
+.bg-scan-lines {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 100% 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0066cc;
+  border: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0088ff;
+}
+
+/* Pixel border utility */
+.pixel-border {
+  box-shadow: -3px 0 0 0 #fff, 3px 0 0 0 #fff, 0 -3px 0 0 #fff, 0 3px 0 0 #fff;
+}
+
+/* Blinking cursor animation */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink::after {
+  content: "|";
+  animation: blink 1s step-end infinite;
+}
+
