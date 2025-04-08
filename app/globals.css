@@ -135,30 +135,28 @@ body {
 }
 
 /* Font style variations for the entire website */
-html.font-style-1 * { font-family: 'VT323', monospace !important; }
-html.font-style-2 * { font-family: 'Courier New', monospace !important; }
-html.font-style-3 * { font-family: 'Consolas', monospace !important; }
-html.font-style-4 * { font-family: 'IBM Plex Mono', monospace !important; }
-html.font-style-5 * { font-family: 'Roboto Mono', monospace !important; }
-html.font-style-6 * { font-family: 'Space Mono', monospace !important; }
-html.font-style-7 * { font-family: 'Source Code Pro', monospace !important; }
-html.font-style-8 * { font-family: 'Ubuntu Mono', monospace !important; }
-html.font-style-9 * { font-family: 'Fira Mono', monospace !important; }
-html.font-style-10 * { font-family: 'JetBrains Mono', monospace !important; }
-html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
+html.font-style-1 * { font-family: 'Courier New', monospace !important; }
+html.font-style-2 * { font-family: 'Consolas', monospace !important; }
+html.font-style-3 * { font-family: 'IBM Plex Mono', monospace !important; }
+html.font-style-4 * { font-family: 'Roboto Mono', monospace !important; }
+html.font-style-5 * { font-family: 'Space Mono', monospace !important; }
+html.font-style-6 * { font-family: 'Source Code Pro', monospace !important; }
+html.font-style-7 * { font-family: 'Ubuntu Mono', monospace !important; }
+html.font-style-8 * { font-family: 'Fira Mono', monospace !important; }
+html.font-style-9 * { font-family: 'JetBrains Mono', monospace !important; }
+html.font-style-10 * { font-family: 'Inconsolata', monospace !important; }
 
 /* Loading font styles for progress indicator */
-.font-style-1 { font-family: 'VT323', monospace; }
-.font-style-2 { font-family: 'Courier New', monospace; }
-.font-style-3 { font-family: 'Consolas', monospace; }
-.font-style-4 { font-family: 'IBM Plex Mono', monospace; }
-.font-style-5 { font-family: 'Roboto Mono', monospace; }
-.font-style-6 { font-family: 'Space Mono', monospace; }
-.font-style-7 { font-family: 'Source Code Pro', monospace; }
-.font-style-8 { font-family: 'Ubuntu Mono', monospace; }
-.font-style-9 { font-family: 'Fira Mono', monospace; }
-.font-style-10 { font-family: 'JetBrains Mono', monospace; }
-.font-style-11 { font-family: 'Inconsolata', monospace; }
+.font-style-1 { font-family: 'Courier New', monospace; }
+.font-style-2 { font-family: 'Consolas', monospace; }
+.font-style-3 { font-family: 'IBM Plex Mono', monospace; }
+.font-style-4 { font-family: 'Roboto Mono', monospace; }
+.font-style-5 { font-family: 'Space Mono', monospace; }
+.font-style-6 { font-family: 'Source Code Pro', monospace; }
+.font-style-7 { font-family: 'Ubuntu Mono', monospace; }
+.font-style-8 { font-family: 'Fira Mono', monospace; }
+.font-style-9 { font-family: 'JetBrains Mono', monospace; }
+.font-style-10 { font-family: 'Inconsolata', monospace; }
 
 /* Navigation */
 .nav-dot {

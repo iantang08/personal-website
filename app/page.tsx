@@ -492,15 +492,22 @@ export default function Home() {
     setThemeMenuOpen(false);
   };
 
-  // Set random font on initial load
+  // Generate random font on page load
   useEffect(() => {
-    const fontIndex = Math.floor(Math.random() * 11) + 1; // Random number between 1-11
-    setRandomFontIndex(fontIndex);
-    document.documentElement.classList.add(`font-style-${fontIndex}`);
-    
-    return () => {
-      document.documentElement.classList.remove(`font-style-${fontIndex}`);
-    };
+    const fonts = [
+      'Courier New',
+      'Consolas',
+      'IBM Plex Mono',
+      'Roboto Mono',
+      'Space Mono',
+      'Source Code Pro',
+      'Ubuntu Mono',
+      'Fira Mono',
+      'JetBrains Mono',
+      'Inconsolata'
+    ];
+    const randomIndex = Math.floor(Math.random() * fonts.length);
+    setRandomFontIndex(randomIndex);
   }, []);
 
   // Update the font style function to actually change fonts
