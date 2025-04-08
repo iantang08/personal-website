@@ -3,16 +3,16 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Ian Tang',
-  description: 'My personal website',
+  description: 'personal website!!!',
   metadataBase: new URL('https://iantang.dev'),
   openGraph: {
     title: 'Ian Tang',
-    description: 'My personal website',
+    description: 'personal website!!!',
     type: 'website',
   },
   twitter: {
     title: 'Ian Tang',
-    description: 'My personal website',
+    description: 'personal website!!!',
     card: 'summary_large_image',
   },
 };
