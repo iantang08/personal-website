@@ -9,6 +9,7 @@
   --background-end-rgb: 0, 0, 0;
   --theme-accent: #ffffff;
   --theme-secondary: #a0a0a0;
+  --transition-duration: 0s;
 }
 
 body {
@@ -316,8 +317,8 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
 }
 
 @keyframes blink-cursor {
-  0%, 100% { border-right: 2px solid transparent; }
-  50% { border-right: 2px solid var(--theme-accent); }
+  0%, 100% { border-right: 2px solid var(--theme-accent); }
+  50% { border-right: 2px solid transparent; }
 }
 
 @keyframes fadeIn {
@@ -634,5 +635,17 @@ h1, h2, h3, h4, h5, h6 {
   animation: 
     typewriter 2s steps(30) forwards,
     blink-cursor 0.8s step-end 2s 1;
+}
+
+/* Update education section text colors */
+.education-details p {
+  color: var(--text-color);
+  transition: color var(--transition-duration) ease;
+}
+
+/* Ensure all text in education section inherits theme colors */
+.education-section * {
+  color: inherit;
+  transition: color var(--transition-duration) ease;
 }
 

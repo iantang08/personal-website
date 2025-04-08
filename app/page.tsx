@@ -918,7 +918,7 @@ export default function Home() {
 
                 {/* Education section - summer sun animation */}
                 {section.id === 'education' && (
-                  <div className="relative">
+                  <div className="relative education-section">
                     {/* Summer animation: sun swooping in */}
                     {isActive && (
                       <motion.div 
@@ -951,9 +951,9 @@ export default function Home() {
                           </div>
                         ))}
                         {'details' in item && item.details && (
-                          <div className="mt-4 space-y-2">
+                          <div className="mt-4 space-y-2 education-details">
                             {item.details.map((detail, j) => (
-                              <p key={j} className="text-white/90">{detail}</p>
+                              <p key={j}>{detail}</p>
                             ))}
                           </div>
                         )}
