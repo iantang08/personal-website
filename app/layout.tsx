@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Ian Tang',
   description: 'personal website!!!',
-  metadataBase: new URL('https://iantang.dev'),
+  metadataBase: new URL('https://iantang.me'),
   openGraph: {
     title: 'Ian Tang',
     description: 'personal website!!!',

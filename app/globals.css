@@ -9,7 +9,6 @@
   --background-end-rgb: 0, 0, 0;
   --theme-accent: #ffffff;
   --theme-secondary: #a0a0a0;
-  --transition-duration: 0s;
 }
 
 body {
@@ -317,12 +316,8 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
 }
 
 @keyframes blink-cursor {
-  0%, 100% { border-right: 2px solid var(--theme-accent); }
-  50% { border-right: 2px solid transparent; }
-}
-
-@keyframes remove-cursor {
-  to { border-right: none; }
+  0%, 100% { border-right: 2px solid transparent; }
+  50% { border-right: 2px solid var(--theme-accent); }
 }
 
 @keyframes fadeIn {
@@ -626,8 +621,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
   animation: 
     typewriter 1.5s steps(8) forwards,
-    blink-cursor 0.8s step-end 1.5s 1,
-    remove-cursor 0.1s step-end 2.3s forwards;
+    blink-cursor 0.8s step-end 1.5s 1;
 }
 
 .typewriter-subtitle {
@@ -639,19 +633,26 @@ h1, h2, h3, h4, h5, h6 {
   border-right: 2px solid var(--theme-accent);
   animation: 
     typewriter 2s steps(30) forwards,
-    blink-cursor 0.8s step-end 2s 1,
-    remove-cursor 0.1s step-end 2.8s forwards;
+    blink-cursor 0.8s step-end 2s 1;
 }
 
-/* Update education section text colors */
-.education-details p {
-  color: var(--text-color);
-  transition: color var(--transition-duration) ease;
+/* Override default transitions for background and text colors */
+.content-container, body, main, section, div, p, span, h1, h2, h3, h4, h5, h6 {
+  transition-property: transform, opacity, visibility !important;
+  /* Explicitly exclude color and background-color from transitions */
+  transition-duration: 0s, 0s, 0s, 0.3s, 0.3s, 0.3s !important;
 }
 
-/* Ensure all text in education section inherits theme colors */
-.education-section * {
-  color: inherit;
-  transition: color var(--transition-duration) ease;
+/* Ensure education section text uses current color */
+[id="education"] p, 
+[id="education"] div, 
+[id="education"] span {
+  color: currentColor !important;
+}
+
+/* All text and background color changes should be instant */
+* {
+  transition-property: color, background-color;
+  transition-duration: 0s;
 }
 
