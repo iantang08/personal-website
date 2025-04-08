@@ -15,7 +15,43 @@ const colorThemes = [
 ];
 
 // Content data
-const sections = [
+type ProjectItem = {
+  title: string;
+  period: string;
+  url?: string;
+  tech: string[];
+  points: string[];
+};
+
+type EducationItem = {
+  title: string;
+  period: string;
+  description: string;
+  awards?: string[];
+  details?: string[];
+};
+
+type ExperienceItem = {
+  title: string;
+  period: string;
+  points: string[];
+};
+
+type SectionItem = ProjectItem | EducationItem | ExperienceItem;
+
+type Section = {
+  id: string;
+  title: string;
+  subtitle?: string[];
+  descriptions?: string[];
+  content?: string;
+  items?: SectionItem[];
+  email?: string;
+  links?: { name: string; url: string; }[];
+  categories?: { name: string; items: string[]; }[];
+};
+
+const sections: Section[] = [
   {
     id: 'intro',
     title: 'IAN TANG',
@@ -95,24 +131,24 @@ const sections = [
       {
         title: 'Personal Portfolio Website',
         period: 'Apr 2025',
+        url: 'https://github.com/iantang08/personal-website',
         tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'React'],
         points: [
           'Designed and developed a minimalist, modern portfolio website with unique typography and animation effects',
           'Implemented custom typewriter animations and font-switching features for a distinctive user experience',
           'Created a responsive, single-page application with smooth scrolling and section transitions',
-          'Built a realistic loading animation with randomized resource loading simulation',
           'Incorporated a random font generator that applies a different monospace typeface on each visit'
         ]
       },
       {
         title: 'The Exercist',
         period: 'Feb 2025 – Mar 2025',
+        url: 'https://github.com/iantang08/UTRAHacks2025',
         tech: ['LangChain', 'GCP', 'AWS', 'MongoDB', 'Flask', 'Python'],
         points: [
           'Collaborated with a team to develop a physiotherapy training app using motion-based Switch JoyCons',
           'Implemented movement tracking and heart rate monitoring to help users maintain motivation during exercises',
           'Designed a Flask-based backend to securely integrate with MongoDB on AWS for storing user exercise data',
-          'Deployed the platform with Terraform on GCP, ensuring highly scalable infrastructure and reliable performance',
           'Incorporated real-time feedback via a GenAI-powered voice assistant to enhance user engagement and retention',
           'Secured Best Use of Databricks award at UTRA Hacks through AI and data-driven features'
         ]
@@ -120,6 +156,7 @@ const sections = [
       {
         title: 'Victoria Park School Services',
         period: 'Jun 2022 – Jun 2024',
+        url: 'https://github.com/VPCICodingClub/VPCI-School-Services',
         tech: ['HTML', 'CSS', 'JavaScript', 'PostgreSQL', 'Vue.js'],
         points: [
           'Boosted event tracking by 50% by launching a student portal for scheduling and community announcements',
@@ -140,6 +177,7 @@ const sections = [
       {
         title: 'ClubConnect!',
         period: 'Oct 2022 – Feb 2023',
+        url: 'https://github.com/iantang08/FBLACP',
         tech: ['Java'],
         points: [
           'Developed a Java Swing app that boosted student engagement by enabling event sign-ups and calendar-tracking',
@@ -147,46 +185,16 @@ const sections = [
           'Streamlined user interactions, enhancing scheduling and communication across school activities'
         ]
       }
-    ]
-  },
-  {
-    id: 'experience',
-    title: 'EXPERIENCE',
-    items: [
-      {
-        title: 'Victoria Park Coding Club Co-President',
-        period: 'Sept 2022 – Jun 2024',
-        points: [
-          'Led engaging and comprehensive workshops through designing and delivering interactive lessons on problem-solving, data structures, and algorithms, enhancing over 200+ participants\' understanding in competitive programming',
-          'Collaborated with a team to develop and implement a Senior Division curriculum, ensuring a cohesive and effective learning experience throughout the year for 30+ students participating in the Canadian Computing Contest'
-        ]
-      },
-      {
-        title: 'Math Club Co-President',
-        period: 'Sept 2022 – Jun 2024',
-        points: [
-          'Planned and delivered in-depth lessons covering diverse conceptual mathematical topics, improving students\' problem-solving skills as well as increasing club participation by over 50%',
-          'Organized club-wide initiatives and events, fostering a sense of community and encouraging higher participation rates, leading to a 66.7% increase in competitive math challenges over 2 years'
-        ]
-      },
-      {
-        title: 'Peer Tutoring Lead Organizer',
-        period: 'Dec 2021 – Jun 2024',
-        points: [
-          'Organized and oversaw a team of student tutors to provide one-on-one support for students struggling in academics',
-          'Designed tailored learning plans and fostered a supportive environment to teach transferable skills in Math and Computer Science, resulting in a 30% average grade improvement'
-        ]
-      }
-    ]
+    ] as ProjectItem[]
   },
   {
     id: 'contact',
     title: 'CONTACT',
     email: 'i7tang@uwaterloo.ca',
     links: [
-      { name: 'GitHub', url: 'https://github.com' },
-      { name: 'LinkedIn', url: 'https://linkedin.com' },
-      { name: 'Twitter', url: 'https://twitter.com' }
+      { name: 'GitHub', url: 'https://github.com/iantang08' },
+      { name: 'LinkedIn', url: 'https://linkedin.com/in/tang-ian' },
+      { name: 'Twitter', url: 'https://twitter.com/ian_88_tang' }
     ]
   }
 ];
@@ -234,7 +242,7 @@ const RotatingDescriptions = ({
       } while (newIndex === displayIndex && descriptions.length > 1);
       
       setDisplayIndex(newIndex);
-    }, 3000); // Change every 3 seconds
+    }, 1000); // Change every 1 second
     
     return () => clearInterval(rotationInterval);
   }, [isVisible, descriptions.length, displayIndex]);
@@ -251,8 +259,8 @@ const RotatingDescriptions = ({
         }}
       >
         {descriptions[displayIndex]}
-            </div>
-          </div>
+      </div>
+    </div>
   );
 };
 
@@ -997,79 +1005,51 @@ export default function Home() {
                   <div className="relative">
                     <h2 className="text-4xl md:text-5xl mb-8">{section.title}</h2>
                     <div className="space-y-12 max-h-[70vh] overflow-y-auto pr-4">
-                      {section.items?.map((project, i) => (
-                        <motion.div 
-                          key={i} 
-                          className="border-l-2 border-white/30 pl-4"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                          transition={{ duration: 0.5, delay: i * 0.2 }}
-                        >
-                          <div className="flex flex-col md:flex-row justify-between items-start mb-2">
-                            <h3 className="text-xl font-bold">{project.title}</h3>
-                            <span className="text-white/70">{project.period}</span>
-                          </div>
-                          {'tech' in project && (
-                            <div className="flex flex-wrap mb-4">
-                              {project.tech.map((tech, j) => (
-                                <span key={j} className="tech-tag">
-                                  {tech}
-                                </span>
-                              ))}
+                      {section.items?.map((item, i) => {
+                        const project = item as ProjectItem;
+                        return (
+                          <motion.div 
+                            key={i} 
+                            className="border-l-2 border-white/30 pl-4"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                            transition={{ duration: 0.5, delay: i * 0.2 }}
+                          >
+                            <div className="flex flex-col md:flex-row justify-between items-start mb-2">
+                              <h3 className="text-xl font-bold">
+                                {project.title}
+                                {project.url && (
+                                  <a 
+                                    href={project.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="ml-2 text-sm text-white/70 hover:text-white transition-colors"
+                                  >
+                                    [View Project]
+                                  </a>
+                                )}
+                              </h3>
+                              <span className="text-white/70">{project.period}</span>
                             </div>
-                          )}
-                          {'points' in project && (
-                            <ul className="list-disc list-inside space-y-2 text-white/90">
-                              {project.points.map((point, j) => (
-                                <motion.li 
-                                  key={j}
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                                  transition={{ duration: 0.5, delay: 0.3 + j * 0.1 }}
-                                >
-                                  {point}
-                                </motion.li>
-                              ))}
-                            </ul>
-                          )}
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {section.id === 'experience' && (
-                  <div className="relative">
-                    <h2 className="text-4xl md:text-5xl mb-8">{section.title}</h2>
-                    <div className="space-y-12 max-h-[70vh] overflow-y-auto pr-4">
-                      {section.items?.map((exp, i) => (
-                        <motion.div 
-                          key={i} 
-                          className="border-l-2 border-white/30 pl-4"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                          transition={{ duration: 0.5, delay: i * 0.3 }}
-                        >
-                          <div className="flex flex-col md:flex-row justify-between items-start mb-2">
-                            <h3 className="text-xl font-bold">{exp.title}</h3>
-                            <span className="text-white/70">{exp.period}</span>
-                          </div>
-                          {'points' in exp && (
-                            <ul className="list-disc list-inside space-y-2 text-white/90">
-                              {exp.points.map((point, j) => (
-                                <motion.li 
-                                  key={j}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                                  transition={{ duration: 0.5, delay: 0.5 + j * 0.1 }}
-                                >
-                                  {point}
-                                </motion.li>
-                              ))}
-                            </ul>
-                          )}
-                        </motion.div>
-                      ))}
+                            {'tech' in project && (
+                              <div className="flex flex-wrap mb-4">
+                                {project.tech.map((tech, j) => (
+                                  <span key={j} className="tech-tag">
+                                    {tech}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            {'points' in project && (
+                              <ul className="list-disc list-inside space-y-2">
+                                {project.points.map((point, j) => (
+                                  <li key={j}>{point}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}

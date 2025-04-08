@@ -321,6 +321,10 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
   50% { border-right: 2px solid transparent; }
 }
 
+@keyframes remove-cursor {
+  to { border-right: none; }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -622,7 +626,8 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
   animation: 
     typewriter 1.5s steps(8) forwards,
-    blink-cursor 0.8s step-end 1.5s 1;
+    blink-cursor 0.8s step-end 1.5s 1,
+    remove-cursor 0.1s step-end 2.3s forwards;
 }
 
 .typewriter-subtitle {
@@ -634,7 +639,8 @@ h1, h2, h3, h4, h5, h6 {
   border-right: 2px solid var(--theme-accent);
   animation: 
     typewriter 2s steps(30) forwards,
-    blink-cursor 0.8s step-end 2s 1;
+    blink-cursor 0.8s step-end 2s 1,
+    remove-cursor 0.1s step-end 2.8s forwards;
 }
 
 /* Update education section text colors */

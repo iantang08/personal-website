@@ -761,6 +761,9 @@ video {
 .mb-8 {
   margin-bottom: 2rem;
 }
+.ml-2 {
+  margin-left: 0.5rem;
+}
 .mt-12 {
   margin-top: 3rem;
 }
@@ -1200,6 +1203,11 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
 .transition-transform {
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1551,6 +1559,10 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
   50% { border-right: 2px solid transparent; }
 }
 
+@keyframes remove-cursor {
+  to { border-right: none; }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -1753,7 +1765,8 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
   animation: 
     typewriter 1.5s steps(8) forwards,
-    blink-cursor 0.8s step-end 1.5s 1;
+    blink-cursor 0.8s step-end 1.5s 1,
+    remove-cursor 0.1s step-end 2.3s forwards;
 }
 
 .typewriter-subtitle {
@@ -1765,7 +1778,8 @@ h1, h2, h3, h4, h5, h6 {
   border-right: 2px solid var(--theme-accent);
   animation: 
     typewriter 2s steps(30) forwards,
-    blink-cursor 0.8s step-end 2s 1;
+    blink-cursor 0.8s step-end 2s 1,
+    remove-cursor 0.1s step-end 2.8s forwards;
 }
 
 /* Update education section text colors */
@@ -1783,6 +1797,10 @@ h1, h2, h3, h4, h5, h6 {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 @media (min-width: 768px) {
 
