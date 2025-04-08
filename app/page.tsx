@@ -251,8 +251,8 @@ const RotatingDescriptions = ({
         }}
       >
         {descriptions[displayIndex]}
-      </div>
-    </div>
+            </div>
+          </div>
   );
 };
 
@@ -577,7 +577,7 @@ export default function Home() {
                     backgroundColor: 'white',
                     transform: 'translate(-50%, -50%)'
                   }}></div>
-                </div>
+        </div>
               );
               break;
             case 'sun':
@@ -675,7 +675,7 @@ export default function Home() {
               background: `linear-gradient(90deg, ${colorThemes[randomFontIndex % colorThemes.length].accent}, ${colorThemes[(randomFontIndex + 2) % colorThemes.length].accent})` 
             }}
           />
-        </div>
+          </div>
 
         <div 
           className={`text-3xl text-white ${getFontStyle(loadingProgress)}`}
