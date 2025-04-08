@@ -617,11 +617,12 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   width: 0;
   display: inline-block;
-  border-right: 2px solid var(--theme-accent);
   opacity: 1;
+  border-right: 2px solid var(--theme-accent);
   animation: 
     typewriter 1.5s steps(8) forwards,
-    blink-cursor 0.8s step-end 1.5s 1;
+    blink-cursor 0.8s step-end 1.5s 1,
+    remove-cursor 0.1s linear 2.3s forwards;
 }
 
 .typewriter-subtitle {
@@ -633,7 +634,8 @@ h1, h2, h3, h4, h5, h6 {
   border-right: 2px solid var(--theme-accent);
   animation: 
     typewriter 2s steps(30) forwards,
-    blink-cursor 0.8s step-end 2s 1;
+    blink-cursor 0.8s step-end 2s 1,
+    remove-cursor 0.1s linear 2.8s forwards;
 }
 
 /* Override default transitions for background and text colors */
@@ -654,5 +656,53 @@ h1, h2, h3, h4, h5, h6 {
 * {
   transition-property: color, background-color;
   transition-duration: 0s;
+}
+
+/* Typewriter animations */
+@keyframes typewriter-title {
+  0% { width: 0; }
+  50% { width: 100%; }
+  100% { width: 100%; }
+}
+
+@keyframes typewriter-subtitle {
+  0% { width: 0; }
+  50% { width: 100%; }
+  100% { width: 100%; }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { border-right: 2px solid var(--theme-accent); }
+  50% { border-right: 2px solid transparent; }
+}
+
+@keyframes remove-cursor {
+  to { border-right: none; }
+}
+
+.typewriter-title {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  display: inline-block;
+  opacity: 1;
+  border-right: 2px solid var(--theme-accent);
+  animation: 
+    typewriter 1.5s steps(8) forwards,
+    blink-cursor 0.8s step-end 1.5s 1,
+    remove-cursor 0.1s linear 2.3s forwards;
+}
+
+.typewriter-subtitle {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  display: inline-block;
+  opacity: 1;
+  border-right: 2px solid var(--theme-accent);
+  animation: 
+    typewriter 2s steps(30) forwards,
+    blink-cursor 0.8s step-end 2s 1,
+    remove-cursor 0.1s linear 2.8s forwards;
 }
 

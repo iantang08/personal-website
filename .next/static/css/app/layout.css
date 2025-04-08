@@ -1165,9 +1165,6 @@ video {
 .text-white\/80 {
   color: rgb(255 255 255 / 0.8);
 }
-.text-white\/90 {
-  color: rgb(255 255 255 / 0.9);
-}
 .opacity-0 {
   opacity: 0;
 }
@@ -1247,7 +1244,6 @@ video {
   --background-end-rgb: 0, 0, 0;
   --theme-accent: #ffffff;
   --theme-secondary: #a0a0a0;
-  --transition-duration: 0s;
 }
 
 body {
@@ -1555,12 +1551,8 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
 }
 
 @keyframes blink-cursor {
-  0%, 100% { border-right: 2px solid var(--theme-accent); }
-  50% { border-right: 2px solid transparent; }
-}
-
-@keyframes remove-cursor {
-  to { border-right: none; }
+  0%, 100% { border-right: 2px solid transparent; }
+  50% { border-right: 2px solid var(--theme-accent); }
 }
 
 @keyframes fadeIn {
@@ -1761,12 +1753,12 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   width: 0;
   display: inline-block;
-  border-right: 2px solid var(--theme-accent);
   opacity: 1;
+  border-right: 2px solid var(--theme-accent);
   animation: 
     typewriter 1.5s steps(8) forwards,
     blink-cursor 0.8s step-end 1.5s 1,
-    remove-cursor 0.1s step-end 2.3s forwards;
+    remove-cursor 0.1s linear 2.3s forwards;
 }
 
 .typewriter-subtitle {
@@ -1779,29 +1771,88 @@ h1, h2, h3, h4, h5, h6 {
   animation: 
     typewriter 2s steps(30) forwards,
     blink-cursor 0.8s step-end 2s 1,
-    remove-cursor 0.1s step-end 2.8s forwards;
+    remove-cursor 0.1s linear 2.8s forwards;
 }
 
-/* Update education section text colors */
-.education-details p {
-  color: var(--text-color);
-  transition: color var(--transition-duration) ease;
+/* Override default transitions for background and text colors */
+.content-container, body, main, section, div, p, span, h1, h2, h3, h4, h5, h6 {
+  transition-property: transform, opacity, visibility !important;
+  /* Explicitly exclude color and background-color from transitions */
+  transition-duration: 0s, 0s, 0s, 0.3s, 0.3s, 0.3s !important;
 }
 
-/* Ensure all text in education section inherits theme colors */
-.education-section * {
-  color: inherit;
-  transition: color var(--transition-duration) ease;
+/* Ensure education section text uses current color */
+[id="education"] p, 
+[id="education"] div, 
+[id="education"] span {
+  color: currentColor !important;
 }
+
+/* All text and background color changes should be instant */
+* {
+  transition-property: color, background-color;
+  transition-duration: 0s;
+}
+
+/* Typewriter animations */
+@keyframes typewriter-title {
+  0% { width: 0; }
+  50% { width: 100%; }
+  100% { width: 100%; }
+}
+
+@keyframes typewriter-subtitle {
+  0% { width: 0; }
+  50% { width: 100%; }
+  100% { width: 100%; }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { border-right: 2px solid var(--theme-accent); }
+  50% { border-right: 2px solid transparent; }
+}
+
+@keyframes remove-cursor {
+  to { border-right: none; }
+}
+
+.typewriter-title {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  display: inline-block;
+  opacity: 1;
+  border-right: 2px solid var(--theme-accent);
+  animation: 
+    typewriter 1.5s steps(8) forwards,
+    blink-cursor 0.8s step-end 1.5s 1,
+    remove-cursor 0.1s linear 2.3s forwards;
+}
+
+.typewriter-subtitle {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  display: inline-block;
+  opacity: 1;
+  border-right: 2px solid var(--theme-accent);
+  animation: 
+    typewriter 2s steps(30) forwards,
+    blink-cursor 0.8s step-end 2s 1,
+    remove-cursor 0.1s linear 2.8s forwards;
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
+
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
+
 @media (min-width: 768px) {
 
   .md\:flex-row {
