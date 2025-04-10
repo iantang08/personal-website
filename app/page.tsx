@@ -290,27 +290,94 @@ export default function Home() {
 
   // Handle scrolling and section changes with smooth transitions
   useEffect(() => {
+    let isScrolling = false;
+    let scrollTimeout: NodeJS.Timeout | null = null;
+    
     const handleScroll = () => {
-      if (containerRef.current) {
-        const scrollPosition = containerRef.current.scrollTop;
-        const containerHeight = containerRef.current.clientHeight;
-        const sectionHeight = containerHeight;
+      if (isScrolling || !containerRef.current) return;
+      
+      // Set flag to prevent multiple scroll events
+      isScrolling = true;
+      
+      const container = containerRef.current;
+      const scrollPosition = container.scrollTop;
+      const containerHeight = container.clientHeight;
+      const scrollHeight = container.scrollHeight;
+      
+      // Calculate current section and progress
+      const rawSection = scrollPosition / containerHeight;
+      const currentSection = Math.round(rawSection);
+      
+      // Check if we've scrolled all the way to the bottom
+      const isAtBottom = scrollPosition + containerHeight >= scrollHeight - 20;
+      
+      // If at the bottom, seamlessly move back to the top to create infinite scroll effect
+      if (isAtBottom) {
+        setTimeout(() => {
+          if (containerRef.current) {
+            // Jump back to the top without animation
+            containerRef.current.scrollTo({
+              top: 0,
+              behavior: 'auto'  // Use 'auto' to avoid visible jump
+            });
+            
+            // Update active section to the first one
+            setPreviousSection(activeSection);
+            setActiveSection(0);
+            
+            // Update season to first season
+            setCurrentSeason(seasons[0]);
+          }
+        }, 200); // Short delay to make the transition less jarring
+      } 
+      // Only snap if we're not already close to a section boundary
+      else if (Math.abs(rawSection - currentSection) > 0.1) {
+        // Snap to the nearest section
+        containerRef.current.scrollTo({
+          top: currentSection * containerHeight,
+          behavior: 'smooth'
+        });
         
-        // Calculate which section should be active based on scroll position
-        const currentSection = Math.round(scrollPosition / sectionHeight);
-        
-        // Only update if we're on a different valid section
+        // Update active section
         if (currentSection !== activeSection && 
             currentSection >= 0 && 
             currentSection < sections.length) {
           setPreviousSection(activeSection);
           setActiveSection(currentSection);
+          
+          // Update season
+          const seasonIndex = Math.min(currentSection, seasons.length - 1);
+          setCurrentSeason(seasons[seasonIndex]);
         }
+      } else if (currentSection !== activeSection && 
+                currentSection >= 0 && 
+                currentSection < sections.length) {
+        // We're already at a section boundary, just update active section
+        setPreviousSection(activeSection);
+        setActiveSection(currentSection);
+        
+        // Update season
+        const seasonIndex = Math.min(currentSection, seasons.length - 1);
+        setCurrentSeason(seasons[seasonIndex]);
       }
+      
+      // Clear previous timeout
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      
+      // Reset flag after a delay
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 500);
     };
 
     const container = containerRef.current;
-    if (container) {
+    if (container && !loading) {
+      // Enable scrolling once loading is complete
+      container.style.overflowY = 'auto';
+      container.style.scrollBehavior = 'smooth';
+      
       container.addEventListener('scroll', handleScroll, { passive: true });
     }
 
@@ -318,19 +385,11 @@ export default function Home() {
       if (container) {
         container.removeEventListener('scroll', handleScroll);
       }
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
     };
-  }, [activeSection, sections.length]);
-
-  // Add initial scroll position check
-  useEffect(() => {
-    if (containerRef.current) {
-      // Enable scrolling immediately
-      containerRef.current.style.overflow = 'auto';
-      
-      // Set initial active section
-      setActiveSection(0);
-    }
-  }, []);
+  }, [activeSection, sections.length, loading, seasons]);
 
   // Generate and update particles based on current season
   useEffect(() => {
@@ -462,24 +521,23 @@ export default function Home() {
     }
   }, [loading]);
 
-  // Improved navigation function for reliable section changes
+  // Better navigation function
   const navigateToSection = (index: number) => {
-    if (index >= 0 && index < sections.length) {
+    if (index >= 0 && index < sections.length && containerRef.current) {
       // Update the active section
       setPreviousSection(activeSection);
       setActiveSection(index);
       
-      // Scroll to section with animation
-      if (containerRef.current) {
-        const sectionHeight = containerRef.current.clientHeight;
-        const targetPosition = index * sectionHeight;
-        
-        // Force scroll to exact position
-        containerRef.current.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-      }
+      // Update season
+      const seasonIndex = Math.min(index, seasons.length - 1);
+      setCurrentSeason(seasons[seasonIndex]);
+      
+      // Scroll to the section
+      const sectionHeight = containerRef.current.clientHeight;
+      containerRef.current.scrollTo({
+        top: index * sectionHeight,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -675,6 +733,34 @@ export default function Home() {
     );
   };
 
+  // Finish loading effect and initialize container scrolling
+  useEffect(() => {
+    if (!loading && containerRef.current) {
+      // Setup scrolling behavior once loading is complete
+      containerRef.current.style.overflow = 'auto';
+      containerRef.current.style.scrollBehavior = 'smooth';
+      
+      // Set initial section to ensure we start at the top
+      setActiveSection(0);
+      setCurrentSeason(seasons[0]);
+      
+      // Ensure we're at the top
+      containerRef.current.scrollTop = 0;
+    }
+  }, [loading, seasons]);
+
+  // Add a special navigation function to handle the "restart" from last to first section
+  const navigateToNextSection = () => {
+    const nextSection = activeSection + 1;
+    
+    // If we're at the last section, navigate to the first one
+    if (nextSection >= sections.length) {
+      navigateToSection(0);
+    } else {
+      navigateToSection(nextSection);
+    }
+  };
+
   if (loading) {
     return (
       <div className="fixed inset-0 bg-black flex flex-col items-center justify-center">
@@ -776,46 +862,62 @@ export default function Home() {
         </div>
       </div>
       
-      {/* Fixed navigation dots */}
-      <div className="fixed bottom-10 left-0 right-0 z-10 flex justify-center">
-        <div className="flex px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full">
-          {sections.map((section, index) => (
-            <button
-              key={section.id}
-              onClick={() => navigateToSection(index)}
-              className={`nav-dot ${index === activeSection ? 'active' : ''}`}
-              aria-label={`Navigate to ${section.title}`}
-              style={{ 
-                backgroundColor: index === activeSection ? colorTheme.accent : 'rgba(255, 255, 255, 0.3)',
-              }}
-            />
-          ))}
+      {/* Navigation dots */}
+      <div className="fixed right-8 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2 z-50">
+        {sections.map((item, index) => (
+          <div
+            key={index}
+            className={`nav-dot ${index === activeSection ? 'active' : ''}`}
+            onClick={() => navigateToSection(index)}
+          />
+        ))}
+        
+        {/* Add a circular arrow indicator to show recursive behavior */}
+        <div 
+          className="mt-4 w-6 h-6 flex items-center justify-center cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
+          onClick={() => navigateToSection(0)}
+          title="Return to top"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+               strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+            <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"></path>
+            <path d="M12 8l-4 4 4 4"></path>
+            <path d="M16 12H8"></path>
+          </svg>
         </div>
       </div>
       
       {/* Main content */}
-      <div ref={containerRef} className="snap-container h-screen overflow-y-auto">
+      <div 
+        ref={containerRef} 
+        className="h-screen overflow-y-auto"
+        style={{ 
+          scrollBehavior: 'smooth',
+          overflowY: loading ? 'hidden' : 'auto',
+          overscrollBehavior: 'none',
+          paddingBottom: '1px'
+        }}
+      >
         {sections.map((section, index) => {
           // Calculate animation classes for smooth transitions
           const isActive = index === activeSection;
           const isPrevious = index === previousSection;
-          const isNextSection = index === activeSection + 1;
-          const isPreviousSection = index === activeSection - 1;
           
+          // Use simplified animation for better performance
           const animationClasses = isActive
             ? 'opacity-100 translate-y-0'
-            : isPrevious
-              ? 'opacity-0 -translate-y-12'
-              : isNextSection
-                ? 'opacity-0 translate-y-12'
-                : isPreviousSection
-                  ? 'opacity-0 -translate-y-12'
-                  : 'opacity-0 translate-y-0';
+            : 'opacity-0';
 
           return (
             <section 
               key={section.id} 
-              className="snap-section h-screen w-full flex items-center justify-center"
+              className="h-screen w-full flex items-center justify-center"
+              style={{ 
+                minHeight: '100vh',
+                scrollSnapAlign: 'start',
+                scrollSnapStop: 'always'
+              }}
+              id={section.id}
             >
               {/* Scroll animation indicator */}
               {isActive && index < sections.length - 1 && (
@@ -871,7 +973,8 @@ export default function Home() {
                       />
                     )}
                     
-                    <div className="mt-12">
+                    <div className="mt-8 flex flex-col items-center">
+                      <div className="text-sm opacity-60 mb-2">Scroll or click below</div>
                       <button 
                         onClick={() => navigateToSection(1)} 
                         className="retro-button hover:scale-105 transition-transform"
@@ -947,33 +1050,35 @@ export default function Home() {
                     )}
                     
                     <h2 className="text-4xl md:text-5xl mb-8">{section.title}</h2>
-                    {section.items?.map((item, i) => (
-                      <motion.div 
-                        key={i} 
-                        className="mb-8"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.5, delay: i * 0.2 }}
-                      >
-                        <div className="flex flex-col md:flex-row justify-between items-start mb-2">
-                          <h3 className="text-xl font-bold">{item.title}</h3>
-                          <span className="text-white/70">{item.period}</span>
-                        </div>
-                        {'description' in item && <p className="mb-4">{item.description}</p>}
-                        {'awards' in item && item.awards && item.awards.map((award, j) => (
-                          <div key={j} className="border border-white/20 p-3 mt-4">
-                            {award}
+                    <div className="max-h-[65vh] overflow-y-auto pr-4 custom-scrollbar">
+                      {section.items?.map((item, i) => (
+                        <motion.div 
+                          key={i} 
+                          className="mb-8"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                          transition={{ duration: 0.5, delay: i * 0.2 }}
+                        >
+                          <div className="flex flex-col md:flex-row justify-between items-start mb-2">
+                            <h3 className="text-xl font-bold">{item.title}</h3>
+                            <span className="text-white/70">{item.period}</span>
                           </div>
-                        ))}
-                        {'details' in item && item.details && (
-                          <div className="mt-4 space-y-2 education-details">
-                            {item.details.map((detail, j) => (
-                              <p key={j}>{detail}</p>
-                            ))}
-                          </div>
-                        )}
-                      </motion.div>
-                    ))}
+                          {'description' in item && <p className="mb-4">{item.description}</p>}
+                          {'awards' in item && item.awards && item.awards.map((award, j) => (
+                            <div key={j} className="border border-white/20 p-3 mt-4">
+                              {award}
+                            </div>
+                          ))}
+                          {'details' in item && item.details && (
+                            <div className="mt-4 space-y-2 education-details">
+                              {item.details.map((detail, j) => (
+                                <p key={j}>{detail}</p>
+                              ))}
+                            </div>
+                          )}
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
@@ -1061,41 +1166,84 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Winter snow animation */}
+                {/* Contact section - winter without snowflakes */}
                 {section.id === 'contact' && (
                   <div className="relative">
+                    {/* Winter animation removed - no more snowflakes */}
+                    
                     <h2 className="text-4xl md:text-5xl mb-8">{section.title}</h2>
-                    <p className="text-2xl mb-8 typewriter">{section.email}</p>
-                    <div className="flex space-x-6 mt-12">
-                      {section.links?.map((link, i) => (
-                        <motion.a 
-                          key={i} 
-                          href={link.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="retro-button hover:scale-105 transition-transform"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                          transition={{ duration: 0.3, delay: i * 0.2 }}
-                        >
-                          {link.name}
-                        </motion.a>
-                      ))}
+                    
+                    <div className="space-y-6">
+                      {section.email && (
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                          <span className="text-white/70">Email:</span>
+                          <a 
+                            href={`mailto:${section.email}`} 
+                            className="typewriter"
+                          >
+                            {section.email}
+                          </a>
+                        </div>
+                      )}
+                      
+                      {section.links && section.links.length > 0 && (
+                        <div className="flex flex-col items-start gap-4">
+                          <span className="text-white/70">Find me on:</span>
+                          <div className="flex flex-wrap gap-3">
+                            {section.links.map((link, i) => (
+                              <a 
+                                key={i}
+                                href={link.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="border border-white/20 px-4 py-2 hover:border-white/40 transition-all hover:bg-black/30 hover:scale-105"
+                              >
+                                {link.name}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <motion.div 
-                      className="text-center mt-16 text-white/30"
-                      initial={{ opacity: 0 }}
-                      animate={isActive ? { opacity: 1 } : { opacity: 0 }}
-                      transition={{ duration: 1, delay: 1 }}
-                    >
-                      © {new Date().getFullYear()} Ian Tang
-                    </motion.div>
+                    
+                    {/* Change restart cycle indicator to 'continue scrolling' */}
+                    <div className="absolute bottom-4 left-0 right-0 flex justify-center items-center flex-col opacity-70">
+                      <div className="text-sm mb-2">Continue scrolling</div>
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-6 w-6 animate-bounce" 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+                        />
+                      </svg>
+                    </div>
                   </div>
                 )}
               </div>
             </section>
           );
         })}
+        
+        {/* Add a glimpse of the first section at the bottom to indicate looping */}
+        <div 
+          className="h-20 w-full flex items-center justify-center"
+          style={{
+            background: `linear-gradient(to bottom, transparent, rgba(0,0,0,0.7))`,
+            position: 'relative'
+          }}
+        >
+          <div className="text-center opacity-60">
+            <span className="text-xl">{sections[0].title}</span>
+            <div className="text-sm">Beginning again...</div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -667,6 +667,9 @@ video {
 .pointer-events-none {
   pointer-events: none;
 }
+.visible {
+  visibility: visible;
+}
 .fixed {
   position: fixed;
 }
@@ -700,11 +703,11 @@ video {
 .-top-20 {
   top: -5rem;
 }
-.bottom-10 {
-  bottom: 2.5rem;
-}
 .bottom-20 {
   bottom: 5rem;
+}
+.bottom-4 {
+  bottom: 1rem;
 }
 .left-0 {
   left: 0px;
@@ -724,6 +727,9 @@ video {
 .top-0 {
   top: 0px;
 }
+.top-1\/2 {
+  top: 50%;
+}
 .top-20 {
   top: 5rem;
 }
@@ -738,6 +744,9 @@ video {
 }
 .z-20 {
   z-index: 20;
+}
+.z-50 {
+  z-index: 50;
 }
 .mx-auto {
   margin-left: auto;
@@ -764,12 +773,6 @@ video {
 .ml-2 {
   margin-left: 0.5rem;
 }
-.mt-12 {
-  margin-top: 3rem;
-}
-.mt-16 {
-  margin-top: 4rem;
-}
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -788,6 +791,9 @@ video {
 .grid {
   display: grid;
 }
+.hidden {
+  display: none;
+}
 .h-1 {
   height: 0.25rem;
 }
@@ -797,14 +803,23 @@ video {
 .h-2 {
   height: 0.5rem;
 }
+.h-20 {
+  height: 5rem;
+}
 .h-32 {
   height: 8rem;
+}
+.h-6 {
+  height: 1.5rem;
 }
 .h-full {
   height: 100%;
 }
 .h-screen {
   height: 100vh;
+}
+.max-h-\[65vh\] {
+  max-height: 65vh;
 }
 .max-h-\[70vh\] {
   max-height: 70vh;
@@ -820,6 +835,9 @@ video {
 }
 .w-32 {
   width: 8rem;
+}
+.w-6 {
+  width: 1.5rem;
 }
 .w-64 {
   width: 16rem;
@@ -840,16 +858,12 @@ video {
   --tw-translate-x: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-.-translate-y-12 {
-  --tw-translate-y: -3rem;
+.-translate-y-1\/2 {
+  --tw-translate-y: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .translate-y-0 {
   --tw-translate-y: 0px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-.translate-y-12 {
-  --tw-translate-y: 3rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .transform {
@@ -974,6 +988,9 @@ video {
 .animate-wind {
   animation: wind 7s linear forwards;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 .list-inside {
   list-style-position: inside;
 }
@@ -1004,13 +1021,11 @@ video {
 .gap-2 {
   gap: 0.5rem;
 }
+.gap-3 {
+  gap: 0.75rem;
+}
 .gap-4 {
   gap: 1rem;
-}
-.space-x-6 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 .space-y-12 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -1021,6 +1036,11 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 .overflow-hidden {
   overflow: hidden;
@@ -1150,9 +1170,6 @@ video {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
-.text-white\/30 {
-  color: rgb(255 255 255 / 0.3);
-}
 .text-white\/50 {
   color: rgb(255 255 255 / 0.5);
 }
@@ -1176,6 +1193,15 @@ video {
 }
 .opacity-40 {
   opacity: 0.4;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
+.opacity-60 {
+  opacity: 0.6;
+}
+.opacity-70 {
+  opacity: 0.7;
 }
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -1202,6 +1228,11 @@ video {
 }
 .transition-colors {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-opacity {
+  transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -1370,30 +1401,28 @@ body {
 }
 
 /* Font style variations for the entire website */
-html.font-style-1 * { font-family: 'VT323', monospace !important; }
-html.font-style-2 * { font-family: 'Courier New', monospace !important; }
-html.font-style-3 * { font-family: 'Consolas', monospace !important; }
-html.font-style-4 * { font-family: 'IBM Plex Mono', monospace !important; }
-html.font-style-5 * { font-family: 'Roboto Mono', monospace !important; }
-html.font-style-6 * { font-family: 'Space Mono', monospace !important; }
-html.font-style-7 * { font-family: 'Source Code Pro', monospace !important; }
-html.font-style-8 * { font-family: 'Ubuntu Mono', monospace !important; }
-html.font-style-9 * { font-family: 'Fira Mono', monospace !important; }
-html.font-style-10 * { font-family: 'JetBrains Mono', monospace !important; }
-html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
+html.font-style-1 * { font-family: 'Courier New', monospace !important; }
+html.font-style-2 * { font-family: 'Consolas', monospace !important; }
+html.font-style-3 * { font-family: 'IBM Plex Mono', monospace !important; }
+html.font-style-4 * { font-family: 'Roboto Mono', monospace !important; }
+html.font-style-5 * { font-family: 'Space Mono', monospace !important; }
+html.font-style-6 * { font-family: 'Source Code Pro', monospace !important; }
+html.font-style-7 * { font-family: 'Ubuntu Mono', monospace !important; }
+html.font-style-8 * { font-family: 'Fira Mono', monospace !important; }
+html.font-style-9 * { font-family: 'JetBrains Mono', monospace !important; }
+html.font-style-10 * { font-family: 'Inconsolata', monospace !important; }
 
 /* Loading font styles for progress indicator */
-.font-style-1 { font-family: 'VT323', monospace; }
-.font-style-2 { font-family: 'Courier New', monospace; }
-.font-style-3 { font-family: 'Consolas', monospace; }
-.font-style-4 { font-family: 'IBM Plex Mono', monospace; }
-.font-style-5 { font-family: 'Roboto Mono', monospace; }
-.font-style-6 { font-family: 'Space Mono', monospace; }
-.font-style-7 { font-family: 'Source Code Pro', monospace; }
-.font-style-8 { font-family: 'Ubuntu Mono', monospace; }
-.font-style-9 { font-family: 'Fira Mono', monospace; }
-.font-style-10 { font-family: 'JetBrains Mono', monospace; }
-.font-style-11 { font-family: 'Inconsolata', monospace; }
+.font-style-1 { font-family: 'Courier New', monospace; }
+.font-style-2 { font-family: 'Consolas', monospace; }
+.font-style-3 { font-family: 'IBM Plex Mono', monospace; }
+.font-style-4 { font-family: 'Roboto Mono', monospace; }
+.font-style-5 { font-family: 'Space Mono', monospace; }
+.font-style-6 { font-family: 'Source Code Pro', monospace; }
+.font-style-7 { font-family: 'Ubuntu Mono', monospace; }
+.font-style-8 { font-family: 'Fira Mono', monospace; }
+.font-style-9 { font-family: 'JetBrains Mono', monospace; }
+.font-style-10 { font-family: 'Inconsolata', monospace; }
 
 /* Navigation */
 .nav-dot {
@@ -1423,26 +1452,30 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
   backdrop-filter: blur(5px);
   border-radius: 4px;
   margin: 3px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .resume-section:hover {
   color: var(--theme-accent);
   border-color: var(--theme-accent);
   background-color: rgba(0, 0, 0, 0.8);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
 }
 
 .resume-section.active {
   color: var(--theme-accent);
   border-color: var(--theme-accent);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 8px var(--theme-accent);
 }
 
 /* Container and section styling */
 .snap-container {
   height: 100vh;
   overflow-y: auto;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: none;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
@@ -1452,7 +1485,7 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
   display: flex;
   align-items: center;
   justify-content: center;
-  scroll-snap-align: start;
+  scroll-snap-align: none;
   position: relative;
   transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1468,6 +1501,7 @@ html.font-style-11 * { font-family: 'Inconsolata', monospace !important; }
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.5s ease, transform 0.5s ease !important;
 }
 
 /* Buttons */
@@ -1631,7 +1665,25 @@ div[class^="font-style-"] {
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.snap-container.overflow-y-auto {
   scroll-snap-type: y mandatory;
+  scroll-padding: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+  height: 100vh;
+  padding-bottom: 1px; /* This tiny padding allows scrolling past the last section */
+}
+.h-screen.snap-container {
+  scroll-snap-type: y mandatory;
+  scroll-padding: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+  height: 100vh;
+  padding-bottom: 1px; /* This tiny padding allows scrolling past the last section */
+}
+.snap-container {
+  scroll-snap-type: none;
   -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
 }
 
@@ -1641,16 +1693,26 @@ div[class^="font-style-"] {
   width: 100%;
   align-items: center;
   justify-content: center;
-  scroll-snap-align: start;
+}
+
+.snap-section.overflow-y-auto {
+  scroll-snap-type: y mandatory;
+  scroll-padding: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+  height: 100vh;
+  padding-bottom: 1px; /* This tiny padding allows scrolling past the last section */
+}
+
+.snap-section {
+  scroll-snap-align: none;
 }
 
 .typewriter {
   overflow: hidden;
   white-space: nowrap;
-  border-right: 2px solid var(--theme-accent);
   animation: 
-    typewriter 2s steps(40) forwards,
-    blink 1s step-end infinite;
+    typewriter 2s steps(40) forwards;
 }
 
 @keyframes typewriter {
@@ -1659,15 +1721,6 @@ div[class^="font-style-"] {
   }
   to {
     width: 100%;
-  }
-}
-
-@keyframes blink {
-  0%, 100% {
-    border-color: var(--theme-accent);
-  }
-  50% {
-    border-color: transparent;
   }
 }
 
@@ -1742,7 +1795,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  scroll-snap-align: start;
+  scroll-snap-align: none;
   position: relative;
   transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1776,9 +1829,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Override default transitions for background and text colors */
 .content-container, body, main, section, div, p, span, h1, h2, h3, h4, h5, h6 {
-  transition-property: transform, opacity, visibility !important;
-  /* Explicitly exclude color and background-color from transitions */
-  transition-duration: 0s, 0s, 0s, 0.3s, 0.3s, 0.3s !important;
+  transition-property: transform, opacity !important;
+  transition-duration: 0.3s !important;
 }
 
 /* Ensure education section text uses current color */
@@ -1842,17 +1894,92 @@ h1, h2, h3, h4, h5, h6 {
     remove-cursor 0.1s linear 2.8s forwards;
 }
 
+/* Custom scrollbar for internal elements */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Make sure the education section text properly inherits theme colors */
+.education-section p,
+.education-section div,
+.education-details p {
+  color: inherit;
+}
+
+/* Main container for scroll snapping */
+html, body {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Section snapping styles */
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always; /* Force snap points */
+}
+
+/* Adjust container scroll behavior */
+.h-screen.overflow-y-auto {
+  scroll-snap-type: y mandatory;
+  scroll-padding: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+  height: 100vh;
+  padding-bottom: 1px; /* This tiny padding allows scrolling past the last section */
+}
+
+/* Section transition improvements */
+.content-container {
+  will-change: transform, opacity; /* Hardware acceleration for smoother transitions */
+}
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-
+.hover\:border-white\/40:hover {
+  border-color: rgb(255 255 255 / 0.4);
+}
+.hover\:bg-black\/30:hover {
+  background-color: rgb(0 0 0 / 0.3);
+}
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
+.hover\:opacity-100:hover {
+  opacity: 1;
+}
+@media (min-width: 640px) {
 
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:items-center {
+    align-items: center;
+  }
+
+  .sm\:gap-4 {
+    gap: 1rem;
+  }
+}
 @media (min-width: 768px) {
 
   .md\:flex-row {
